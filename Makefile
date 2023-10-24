@@ -1,1 +1,1 @@
-all: @docker-compose -f docker-compose.yml up -d
+all: docker-compose -f srcs/docker-compose.yml build -d

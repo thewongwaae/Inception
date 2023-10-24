@@ -1,0 +1,22 @@
+# networks:
+#   inception:
+
+# volume:
+#   mariadbvol:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       o: bind
+#       device: /home/username/mariadb
+version: '3'
+
+services:
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    ports:
+      - "443:443"
+    # networks:
+    #   - inception
+
+  # mariadb:
