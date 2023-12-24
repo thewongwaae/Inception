@@ -1,0 +1,21 @@
+server {
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	server_name www.hwong.42kl.my hwong.42kl.my;
+
+	ssl_certificate here_certs;
+	ssl_certificate_key here_key;
+
+	ssl_protocols TLSv1.3;
+
+	index index.html;
+	root /var/www/html'
+
+	location ~ [^/]\.php(/|$) {
+		try_files $uri =404;
+		fastcgi_pass wordpress:9000;
+		include fastcgi_params;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+	}
+}
