@@ -2,14 +2,14 @@ server {
 	listen 443 ssl;
 	listen [::]:443 ssl;
 
-	server_name www.hwong.42kl.my hwong.42kl.my;
+	server_name www.$DOMAIN_NAME $DOMAIN_NAME;
 
-	ssl_certificate here_certs;
-	ssl_certificate_key here_key;
+	ssl_certificate $CERTS_;
+	ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
 
 	ssl_protocols TLSv1.3;
 
-	index index.html;
+	index index.php;
 	root /var/www/html'
 
 	location ~ [^/]\.php(/|$) {

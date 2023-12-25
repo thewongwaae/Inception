@@ -1,4 +1,4 @@
-SRC = srcs/docker-compose.yml
+SRC = ./srcs/docker-compose.yml
 COMPOSE = docker-compose -f
 
 # ----- build ----- #
