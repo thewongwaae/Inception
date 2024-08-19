@@ -1,43 +1,40 @@
-SRC = ./srcs/docker-compose.yml
+WP_DATA = /home/data/wordpress
+MDB_DATA = /home/data/mariadb
 COMPOSE = docker-compose -f
+COMPOSE_FILE = ./docker-compose.yml
 
-# ----- build ----- #
+all: up
 
-up:
-	mkdir -p $(HOME)/data/mariadb
-	mkdir -p $(HOME)/data/wordpress
-	$(COMPOSE) $(SRC) build
-	$(COMPOSE) $(SRC) up -d
 
-down:
-	$(COMPOSE) $(SRC) down
+up: build
+	mkdir -p $(WP_DATA)
+	mkdir -p $(MDB_DATA)
+	$(COMPOSE) $(COMPOSE_FILE) up -d
 
-# ----- services ----- #
 
 start:
-	$(COMPOSE) $(SRC) start
+	$(COMPOSE) $(COMPOSE_FILE) start
 
-ps:
-	docker ps -a
+build:
+	$(COMPOSE) $(COMPOSE_FILE) build
 
-mariadb:
-	docker exec -it mariadb bash
-
-nginx:
-	docker exec -it nginx bash
-
-wordpress:
-	docker exec -it wordpress bash
+down:
+	$(COMPOSE) $(COMPOSE_FILE) down
 
 stop:
-	$(COMPOSE) $(SRC) stop
+	$(COMPOSE) $(COMPOSE_FILE) stop
 
-# ----- clean ----- #
 
 clean:
-	docker system prune -f
+	docker stop $$(docker ps -qa) || true
+	docker rm $$(docker ps -qa) || true
+	docker rmi -f $$(docker images -q) || true
+	docker volume rm $$(docker volume ls -q) || true
+	docker network rm $$(docker network ls -q) || true
+	rm -rf $(WP_DATA) || true
+	rm -rf $(MDB_DATA) || true
 
-fclean:
-	docker system prune --all -f
+re: clean up
 
-re: down fclean up
+prune: clean
+	docker system prune -a --volumes -f

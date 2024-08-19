@@ -1,12 +1,20 @@
-FROM debian:buster
+FROM debian:bullseye
 
-RUN apt-get update -y && apt-get install -y nginx openssl
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y nginx openssl
 
-COPY ./conf nginx.conf /etc/nginx/
-COPY ./tools/nginx_script.sh /
+RUN mkdir -p /etc/nginx/ssl
 
-RUN chmod +x /nginx_script.sh
+# Generate self-signed SSL certificate
+# -x509 ~ specifies self-signed instead of certificate request
+# -nodes ~ skip encryption
+RUN openssl req -x509 -nodes -out /etx/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=MY/ST=KL/L=KL/O=42/OU=42/CN=domain.fr/UID=admin"
 
-EXPOSE 443
+copy conf/nginx.conf /etc/nginx/
 
-CMD ["/nginx_script.sh"]
+RUN mkdir -p /var/www/wordpress
+# Change owner of the Wordpress directory to www-data
+RUN chown -R www-data:www-data /var/www/wordpress
+
+# Run in foreground
+CMD ["nginx", "-g", "daemon off;"]

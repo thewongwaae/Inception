@@ -1,5 +1,11 @@
-FROM debian:buster
+FROM debian:bullseye
 
-RUN apt-get update -y && apt-get install -y mariadb-server
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y mariadb-server
 
-COPY 
+# Copy setup script to container
+COPY conf/mdb-conf.sh /
+RUN chmod +x /mdb-conf.sh
+
+# Since the script is now in container root, just specify it is in root (.)
+ENTRYPOINT ["./mdb-conf.sh"]
