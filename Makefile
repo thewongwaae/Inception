@@ -1,7 +1,7 @@
 WP_DATA = /home/data/wordpress
 MDB_DATA = /home/data/mariadb
 COMPOSE = docker-compose -f
-COMPOSE_FILE = ./docker-compose.yml
+COMPOSE_FILE = srcs/docker-compose.yml
 
 all: up
 

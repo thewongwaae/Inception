@@ -8,7 +8,7 @@ RUN mkdir -p /etc/nginx/ssl
 # Generate self-signed SSL certificate
 # -x509 ~ specifies self-signed instead of certificate request
 # -nodes ~ skip encryption
-RUN openssl req -x509 -nodes -out /etx/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=MY/ST=KL/L=KL/O=42/OU=42/CN=domain.fr/UID=admin"
+RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/nginx/ssl/inception.key -subj "/C=MY/ST=KL/L=KL/O=42/OU=42/CN=hwong.42.fr"
 
 copy conf/nginx.conf /etc/nginx/
 
