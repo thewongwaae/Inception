@@ -3,22 +3,21 @@ MDB_DATA = /home/data/mariadb
 COMPOSE = docker-compose -f
 COMPOSE_FILE = srcs/docker-compose.yml
 
-all: up
+all: up build
 
 
-up: build
-	mkdir -p $(WP_DATA)
-	mkdir -p $(MDB_DATA)
+up:
 	$(COMPOSE) $(COMPOSE_FILE) up -d
-
 
 start:
 	$(COMPOSE) $(COMPOSE_FILE) start
 
 build:
+	mkdir -p $(WP_DATA)
+	mkdir -p $(MDB_DATA)
 	$(COMPOSE) $(COMPOSE_FILE) build
 
-down:
+down: stop
 	$(COMPOSE) $(COMPOSE_FILE) down
 
 stop:
