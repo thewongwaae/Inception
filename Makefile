@@ -3,7 +3,7 @@ MDB_DATA = /home/data/mariadb
 COMPOSE = docker-compose -f
 COMPOSE_FILE = srcs/docker-compose.yml
 
-all: up build
+all: build up
 
 
 up:
@@ -33,7 +33,7 @@ clean:
 	rm -rf $(WP_DATA) || true
 	rm -rf $(MDB_DATA) || true
 
-re: clean up
+re: prune all
 
 prune: clean
 	docker system prune -a --volumes -f
